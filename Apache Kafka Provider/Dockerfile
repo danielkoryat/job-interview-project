@@ -13,4 +13,4 @@ RUN useradd -m myuser
 USER myuser
 
 # Run the application
-CMD ["python", "main.py"]
+CMD ["python", "kafka_provider.py"]
