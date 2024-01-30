@@ -14,3 +14,5 @@ USER myuser
 
 # Run the application
 CMD ["python", "kafka_provider.py"]
+
+

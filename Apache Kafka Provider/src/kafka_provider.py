@@ -23,6 +23,7 @@ try:
             event = Event()
             producer.produce('event', key=str(event.id), value=event.to_json(), callback=delivery_report)
             producer.poll(0)
+            print(f"{event.to_json()} sent",flush=True)
             time.sleep(1)  
 except KeyboardInterrupt:
     pass

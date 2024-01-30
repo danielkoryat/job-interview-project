@@ -17,3 +17,6 @@ docker exec -it main_project-kafka-1 kafka-console-consumer --bootstrap-server k
 docker exec -it main_project-kafka-1 kafka-topics --delete --topic event --bootstrap-server localhost:29092
 
 
+docker exec -it main_project-kafka-1 kafka-consumer-groups --bootstrap-server localhost:9092 --group order_processing_group --describe
+
+
