@@ -19,6 +19,9 @@ docker-compose down
 #creates a new topic in the kafka cluster main_project-kafka-1: name of the container  event: name of the topic 
 docker exec -it main_project-kafka-1 kafka-topics --create --topic event --partitions 1 --replication-factor 1 --bootstrap-server localhost:29092
 
+#delete the topic
+docker exec -it main_project-kafka-1 kafka-topics --delete --topic event --bootstrap-server localhost:29092
+
 #list all the topics in the kafka cluster
 docker exec -it main_project-kafka-1 kafka-topics --list --bootstrap-server localhost:29092
 
@@ -26,14 +29,9 @@ docker exec -it main_project-kafka-1 kafka-topics --list --bootstrap-server loca
 #see the events in the kafka cluster main_project-kafka-1 event topic
 docker exec -it main_project-kafka-1 kafka-console-consumer --bootstrap-server kafka:9092 --topic event --from-beginning
 
-#delete the topic
-docker exec -it main_project-kafka-1 kafka-topics --delete --topic event --bootstrap-server localhost:29092
-
 #see the currnt offset by the group; order_processing_group: group name
 docker exec -it main_project-kafka-1 kafka-consumer-groups --bootstrap-server localhost:9092 --group order_processing_group --describe
                 
-#see that kafka is reciving messages
-docker exec -it main_project-kafka-1 kafka-console-consumer --bootstrap-server localhost:9092 --topic event --from-beginning
 ##############################################################################################################################
 
 ##mongodb

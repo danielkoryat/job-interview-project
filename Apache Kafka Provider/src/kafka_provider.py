@@ -5,9 +5,9 @@ import os
 
 def delivery_report(err, msg):
     if err is not None:
-        print(f'Message delivery failed: {err}')
+        print(f'Message delivery failed: {err}', flush=True)
     else:
-        print(f'Message delivered to {msg.topic()} [{msg.partition()}]')
+        print(f'Message delivered to {msg.topic()} [{msg.partition()}]', flush=True)
 
 # Kafka configuration
 conf = {
@@ -21,7 +21,7 @@ try:
     if __name__ == '__main__':
         while True:
             event = Event()
-            producer.produce(topic=os.getenv('TOPIC_NAME'), key=str(event.id), value=event.to_json(), callback=delivery_report)
+            producer.produce(topic=os.getenv('TOPIC_NAME'), key=str(event.reporterId), value=event.to_json(), callback=delivery_report)
             producer.poll(0)
             print(f"{event.to_json()} sent",flush=True)
             time.sleep(1)  

@@ -65,7 +65,7 @@ services:
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - KAFKA_CLIENT_ID=consumer_client
       - CONSUMER_GROUP_ID=order_processing_group
-      - AUTO_OFFSET_RESET=latest
+      - AUTO_OFFSET_RESET=earliest
       - TOPIC_NAME=event
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
@@ -75,6 +75,25 @@ services:
     depends_on:
       - kafka
       - zookeeper
+      - mongodb
+
+  redis-provider:
+    build:
+      context: ./Redis Provider
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - TOPIC_NAME=event
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_URI=${MONGO_URI}
+      - MONGO_DATABASE=database1
+      - MONGO_COLLECTION=events
+    depends_on:
+      - redis
       - mongodb
 
 volumes:

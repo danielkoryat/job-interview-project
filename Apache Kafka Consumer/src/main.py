@@ -13,7 +13,7 @@ if __name__ == "__main__":
             if document:
                 mongo_service.insert_document(document)
                 kafka_service.consumer.commit()
-                print(f"message ID: {document['id']} inserted successfully", flush=True)
+                print(f"message ID: {document['reporterId']} inserted successfully", flush=True)
             time.sleep(1)
     except Exception as e:
         print(e)

@@ -3,6 +3,7 @@ from typing import Optional, Dict
 import os
 import json
 from datetime import datetime
+from utils import error_handler
 
 
 
@@ -21,8 +22,9 @@ class KafkaService:
         consumer.subscribe([os.getenv('TOPIC_NAME')])
         return consumer
     
+    @error_handler
     def consume_messages(self) -> Optional[Dict[str, any]]:
-        msg = self.consumer.poll(5)
+        msg = self.consumer.poll(8)
         if msg is None:
             print("No message received", flush=True)
             return None
