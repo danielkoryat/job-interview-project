@@ -1,4 +1,1 @@
-1. clean the provider code
-2. show that message are reciving and reading from kafka
 3. orgeni the scripts
-4. unserstand why sometimes the conimer works and somthimes not

@@ -72,6 +72,7 @@ services:
       - MONGO_URI=${MONGO_URI}
       - MONGO_DATABASE=database1
       - MONGO_COLLECTION=events
+      - MONGO_INDEX_KEY=timestamp
     depends_on:
       - kafka
       - zookeeper
