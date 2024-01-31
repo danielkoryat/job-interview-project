@@ -21,7 +21,7 @@ try:
     if __name__ == '__main__':
         while True:
             event = Event()
-            producer.produce('event', key=str(event.id), value=event.to_json(), callback=delivery_report)
+            producer.produce(topic=os.getenv('TOPIC_NAME'), key=str(event.id), value=event.to_json(), callback=delivery_report)
             producer.poll(0)
             print(f"{event.to_json()} sent",flush=True)
             time.sleep(1)  
