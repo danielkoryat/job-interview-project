@@ -9,10 +9,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY src/ .
 
 # Create a non-root user and switch to it
-RUN useradd -m myuser
-USER myuser
+RUN useradd -m newuser
+USER newuser
 
 # Run the application
-CMD ["python", "kafka_provider.py"]
+CMD ["python", "main.py"]
 
 
