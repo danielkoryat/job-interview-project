@@ -1,44 +1,44 @@
 
-**Microservices Event Processing System**
+# Microservices Event Processing System
 
-**Overview**
+## Overview
 
 This project demonstrates a microservices architecture designed to process and transfer EVENT objects between services using Apache Kafka, MongoDB, and Redis. The system is orchestrated using Docker and Docker Compose, ensuring easy setup and scalability. The architecture includes:
 
-- **Apache Kafka** for queuing messages.
+- **Apache Kafka** for queuing messages.  
 
-- **MongoDB** as a document database to store events. 
+- **MongoDB** as a document database to store events.
 
 - **Redis** for efficient key-value storage.
 
 - **Docker** to containerize and manage the microservices.
 
-**Prerequisites**
+## Prerequisites
 
 - Docker and Docker Compose installed on your system.
 
-- At least 8 GB of RAM for optimal performance.
+- At least 8 GB of RAM for optimal performance. 
 
-**Architecture** 
+## Architecture
 
 The project consists of several microservices:
 
 1. **Kafka Producer** (`kafka-provider`): Generates EVENT objects and sends them to a Kafka topic.
 
-2. **Kafka Consumer to MongoDB** (`kafka-consumer`): Consumes events from Kafka and inserts them into MongoDB.
+2. **Kafka Consumer to MongoDB** (`kafka-consumer`): Consumes events from Kafka and inserts them into MongoDB. 
 
 3. **MongoDB to Redis ETL** (`redis-provider`): Transfers data from MongoDB to Redis.
 
-**Setup Instructions**
+## Setup Instructions 
 
 1. **Clone the repository:**
 
    ```bash
-   git clone <repository-url> 
+   git clone <repository-url>
    cd <repository-directory>
    ```
 
-2. **Start Zookeeper:**
+2. **Start Zookeeper:** 
 
    ```bash
    docker compose up zookeeper -d
@@ -94,7 +94,7 @@ The project consists of several microservices:
 
 11. **Start Redis:**
 
-    ```bash
+    ```bash 
     docker compose up redis -d
     ```
 
@@ -107,16 +107,16 @@ The project consists of several microservices:
 13. **Get all keys in Redis:**
 
     ```bash
-    docker exec -it <redis-container-name> redis-cli KEYS '*'
+    docker exec -it <redis-container-name> redis-cli KEYS '*' 
     ```
 
 14. **Repeat steps 9 and 12 as needed to process additional data.**
 
-**Additional Notes**
+## Additional Notes
 
 - Ensure all environment variables are set correctly in the `docker-compose.yml` file.
 
-- Use `docker container ls` to find container names for executing commands. 
+- Use `docker container ls` to find container names for executing commands.
 
 - Adjust the MongoDB and Redis connection details according to your setup.
 
