@@ -8,6 +8,7 @@ def main():
     #Main function to consume messages from Kafka and insert them into MongoDB.
     kafka_service = KafkaService()
     mongo_service = MongoService()
+    mongo_service.setup_indexer()
 
     try:
         while True:
@@ -15,8 +16,8 @@ def main():
             if document:
                 mongo_service.insert_document(document)
                 kafka_service.consumer.commit()
-                logging.info(f"Message ID: {document['reporterId']} inserted successfully")
-            time.sleep(2)
+                logging.info(f"Message ID: {document['reporter_id']} inserted successfully")
+            time.sleep(1)
     except Exception as e:
         logging.error(f"An error occurred: {e}", exc_info=True)
     finally:

@@ -61,3 +61,40 @@ db.events.updateOne({id: 2}, {$set: {message: "New event message"}})
 
 #Delete an event from `events` collection by its name
 db.events.deleteOne({name: "Old Event"})
+
+#delete the events collection
+use database1;
+db.events.drop();
+
+docker exec -it main_project-mongodb-1 mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval "db.getSiblingDB('database1').events.drop()"
+
+#get a list of all the collections
+docker exec -it main_project-mongodb-1 mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval "db.getCollectionNames()"
+
+
+
+# Script to list indexes in all collections
+docker exec -it main_project-mongodb-1 mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval "db.getSiblingDB('database1').events.getIndexes()"
+
+#prove that the timestemp is stored as bson date
+db.events.aggregate([
+  { $limit: 1 },
+  { $project: { timestampType: { $type: "$timestamp" } } }
+])
+
+
+
+##########################################################################################################################
+##redis
+
+# Script to list all keys in Redis
+docker-compose exec redis redis-cli KEYS '*'
+
+# Script to get the value of a key
+docker-compose exec redis redis-cli GET "key_name"
+
+# Script to add members to a set
+docker-compose exec redis redis-cli SADD "your_set_key" "member1" "member2"
+
+# Script to delete all keys from the current Redis database
+docker-compose exec redis redis-cli FLUSHDB

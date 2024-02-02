@@ -9,7 +9,7 @@ def delivery_report(err, msg):
     if err is not None:
         logging.error(f'Message delivery failed: {err}')
     else:
-        logging.info(f'Message delivered to {msg.topic()} [{msg.partition()}]')
+        logging.info(f'Message delivered to {msg.topic()}')
 
 def create_kafka_producer():
     #Creates and configures a Kafka producer.

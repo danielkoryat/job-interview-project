@@ -1,8 +1,8 @@
 import logging
-from confluent_kafka import Consumer, KafkaError
+from confluent_kafka import Consumer, KafkaError,Message
 import os
 import json
-from datetime import datetime
+from datetime import datetime,timezone
 from typing import Optional, Dict
 from utils import error_handler
 
@@ -38,10 +38,10 @@ class KafkaService:
                 logging.info("End of partition event")
             return None
         
-        dict_for_database = self.process_message(msg)   
-        return dict_for_database
+        document_for_database = self.process_message(msg)   
+        return document_for_database
 
-    def process_message(self, msg) -> Optional[Dict[str, any]]:
+    def process_message(self, msg : Message) -> Optional[Dict[str, any]]:
         #Processes the Kafka message and returns a dictionary.
         try:
             self.consumer.commit(msg)
@@ -49,7 +49,7 @@ class KafkaService:
             message_dict = json.loads(decoded_message)
 
             if 'timestamp' in message_dict:
-                message_dict['timestamp'] = datetime.fromisoformat(message_dict['timestamp'])
+                message_dict['timestamp'] = datetime.fromisoformat(message_dict['timestamp'].rstrip('Z')).replace(tzinfo=timezone.utc)
             return message_dict
 
         except json.JSONDecodeError as e:

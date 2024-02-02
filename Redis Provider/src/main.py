@@ -15,15 +15,19 @@ def create_redis_key_value(record: Dict[str, Any]) -> Tuple[str, str]:
     record_copy = deepcopy(record)
     record_copy['timestamp'] = record_copy['timestamp'].isoformat()
 
-    key = f"{record_copy['reporterId']}:{record_copy['timestamp']}"
+    key = f"{record_copy['reporter_id']}:{record_copy['timestamp']}"
     value = json.dumps(record_copy)
     return key, value
 
-def process_records(mongo_service: MongoService, redis_service: RedisService) -> datetime:
+def process_records(mongo_service: MongoService, redis_service: RedisService):
     #Processes new records from MongoDB and saves them in Redis, returns the last processed timestamp.
 
     last_timestamp = redis_service.get_last_processed_timestamp()
     new_records = mongo_service.get_new_records(last_timestamp)
+
+    if not new_records:
+        logging.info("No new records to process")
+        return
 
     for record in new_records:
         key, value = create_redis_key_value(record)
@@ -36,7 +40,6 @@ def process_records(mongo_service: MongoService, redis_service: RedisService) ->
             logging.error(f"Failed to insert {key} into Redis")
 
     redis_service.save_last_processed_timestamp(last_timestamp)
-    return last_timestamp
 
 def run_interval(interval: int): 
     #Runs the record processing at a specified interval.
