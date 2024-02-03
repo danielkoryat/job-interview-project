@@ -27,8 +27,6 @@ docker compose up kafka-consumer
 #get all the documents in the events collection
 docker exec -it main_project-mongodb-1 mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval "const eventsCollection = db.getSiblingDB('database1').events; eventsCollection.find().forEach(doc => print(JSON.stringify(doc, null, 2))); print('Total documents in events collection:', eventsCollection.countDocuments({}));"
 
-##TODO: find out why the timestemp index is not created
-
 #run redis
 docker compose up redis -d
 

@@ -25,5 +25,5 @@ def main():
         logging.info("Kafka consumer closed.")
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.INFO,format='%(levelname)s - %(message)s')
     main()

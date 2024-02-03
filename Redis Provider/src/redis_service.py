@@ -4,6 +4,10 @@ from typing import Any
 from datetime import datetime
 import logging
 from utils import error_handler
+import json
+from copy import deepcopy
+from typing import Tuple, Dict
+
 
 class RedisService:
     @error_handler
@@ -35,3 +39,14 @@ class RedisService:
             return datetime.fromisoformat(last_processed_timestamp.decode('utf-8'))
         else:
             return datetime.min
+        
+    def create_redis_key_value(record: Dict[str, Any]) -> Tuple[str, str]:
+    #Converts a record to a Redis key-value pair.
+
+    # Deep copy to prevent modifying the original record
+        record_copy = deepcopy(record)
+        record_copy['timestamp'] = record_copy['timestamp'].isoformat()
+
+        key = f"{record_copy['reporter_id']}:{record_copy['timestamp']}"
+        value = json.dumps(record_copy)
+        return key, value

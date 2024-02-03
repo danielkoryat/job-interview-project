@@ -5,7 +5,7 @@ from kafka_service import KafkaService
 def main():
     #Main function to continuously send messages to Kafka.
     
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    logging.basicConfig(level=logging.INFO,format='%(levelname)s - %(message)s')
     kafka_service = KafkaService()
 
     try:
