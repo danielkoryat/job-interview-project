@@ -30,7 +30,7 @@ class KafkaService:
         if err is not None:
             logging.error(f'Message delivery failed: {err}')
         else:
-            logging.info(f'Message delivered to at offset {msg.offset()}') 
+            logging.info(f'Message delivered, offset {msg.offset()}') 
 
     def send_event_message(self):
         #Sends an event message to the Kafka topic.
@@ -43,7 +43,7 @@ class KafkaService:
                 callback=self.delivery_report
             )
             self.producer.poll(0) 
-            logging.info(f"ebent id {event.reporter_id} sent successfully")
+            logging.info(f"event with id {event.reporter_id} sent")
         except Exception as e:
             logging.error(f"An error occurred while sending the event message: {e}", exc_info=True)
 

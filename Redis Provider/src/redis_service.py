@@ -40,7 +40,7 @@ class RedisService:
         else:
             return datetime.min
         
-    def create_redis_key_value(record: Dict[str, Any]) -> Tuple[str, str]:
+    def create_redis_key_value(self,record: Dict[str, Any]) -> Tuple[str, str]:
     #Converts a record to a Redis key-value pair.
 
     # Deep copy to prevent modifying the original record

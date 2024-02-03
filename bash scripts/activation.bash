@@ -8,11 +8,11 @@ docker compose up kafka -d
 #create event topic
 docker exec -it main_project-kafka-1 kafka-topics --create --topic event --partitions 1 --replication-factor 1 --bootstrap-server localhost:29092
 
-#run the kafka provider
-docker compose up kafka-provider 
-
 #lister to new messages that recived 
 docker exec -it main_project-kafka-1 kafka-console-consumer --bootstrap-server kafka:9092 --topic event
+
+#run the kafka provider
+docker compose up kafka-provider 
 
 #run mongodb
 docker compose up mongodb -d
@@ -26,6 +26,7 @@ docker compose up kafka-consumer
 
 #get all the documents in the events collection
 docker exec -it main_project-mongodb-1 mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval "const eventsCollection = db.getSiblingDB('database1').events; eventsCollection.find().forEach(doc => print(JSON.stringify(doc, null, 2))); print('Total documents in events collection:', eventsCollection.countDocuments({}));"
+
 
 #run redis
 docker compose up redis -d
@@ -44,3 +45,4 @@ docker compose up redis-provider
 
 #get all the keys in redis
 docker exec -it main_project-redis-1 redis-cli KEYS '*'
+

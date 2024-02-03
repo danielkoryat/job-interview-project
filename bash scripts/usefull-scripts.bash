@@ -9,10 +9,9 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
 docker-compose up -d
 
 #start a spesific container
-docker start container-name
+docker compose up "container name"
 
-#stop the docker compose
-docker-compose down
+
 ##############################################################################################################################
 ##kafka
 
@@ -40,48 +39,40 @@ docker exec -it main_project-kafka-1 kafka-consumer-groups --bootstrap-server lo
 docker-compose exec mongodb mongosh -u superuser -p a12s34 --authenticationDatabase 'admin'
 
 #switch to or create `database1` and then create `events` collection
-use database1
-db.createCollection("events");
+docker-compose exec mongodb mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval 'db.getSiblingDB(`"database1`").createCollection(`"events`");'
 
 #see the events collcection inside database1
-use database1
-db.events.find().pretty();
+docker-compose exec mongodb mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval 'db.getSiblingDB(`"database1`").events.find().pretty();'
+
 
 #remove all th documents
-db.events.remove({});
+docker-compose exec mongodb mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval 'db.getSiblingDB(`"database1`").events.remove({});'
 
 # Update a field in documents within `events` collection
-db.events.updateMany({}, {$set: {message: 'hellow'}})
+docker-compose exec mongodb mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval 'db.getSiblingDB(`"database1`").events.updateMany({}, {$set: {message: `"hello"`}});'
 
 #Insert a new event into `events` collection
-db.events.insertOne({message: "New Event", date: new Date(), location: "Location A"})
+docker-compose exec mongodb mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval 'db.getSiblingDB(`"database1`").events.insertOne({message: `"New Event"`, date: new Date(), location: `"Location A"`});'
 
 #Update a specific event
-db.events.updateOne({id: 2}, {$set: {message: "New event message"}})
+docker-compose exec mongodb mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval 'db.getSiblingDB(`"database1`").events.updateOne({id: 2}, {$set: {message: `"New event message"`}});'
 
 #Delete an event from `events` collection by its name
-db.events.deleteOne({name: "Old Event"})
+docker-compose exec mongodb mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval 'db.getSiblingDB(`"database1`").events.deleteOne({name: `"Old Event"`});'
 
 #delete the events collection
-use database1;
-db.events.drop();
+docker-compose exec mongodb mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval 'db.getSiblingDB(`"database1`").events.drop();'
 
-docker exec -it main_project-mongodb-1 mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval "db.getSiblingDB('database1').events.drop()"
 
 #get a list of all the collections
-docker exec -it main_project-mongodb-1 mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval "db.getCollectionNames()"
+docker-compose exec mongodb mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval 'db.getSiblingDB(`"admin`").getCollectionNames();'
 
 
-
-# Script to list indexes in all collections
-docker exec -it main_project-mongodb-1 mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval "db.getSiblingDB('database1').events.getIndexes()"
+#list indexes in all collections
+docker-compose exec mongodb mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval 'db.getSiblingDB(`"database1`").events.getIndexes();'
 
 #prove that the timestemp is stored as bson date
-db.events.aggregate([
-  { $limit: 1 },
-  { $project: { timestampType: { $type: "$timestamp" } } }
-])
-
+docker-compose exec mongodb mongosh -u superuser -p a12s34 --authenticationDatabase 'admin' --eval 'db.getSiblingDB(`"database1`").events.aggregate([{ $limit: 1 }, { $project: { timestampType: { $type: `$"timestamp"` } } }]);'
 
 
 ##########################################################################################################################
@@ -93,8 +84,11 @@ docker-compose exec redis redis-cli KEYS '*'
 # Script to get the value of a key
 docker-compose exec redis redis-cli GET "key_name"
 
-# Script to add members to a set
-docker-compose exec redis redis-cli SADD "your_set_key" "member1" "member2"
+# Script to crete a key VALUE
+docker-compose exec redis redis-cli SET key_name "value"
 
 # Script to delete all keys from the current Redis database
 docker-compose exec redis redis-cli FLUSHDB
+
+#get the sorted value with an error becouse last_processes_timestamp
+docker exec -i main_project-redis-1 redis-cli KEYS '*' | ForEach-Object { $_.Trim() } | Sort-Object { [int]($_ -split ':')[0] }
