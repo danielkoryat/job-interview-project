@@ -34,8 +34,8 @@ The project consists of several microservices:
 1. **Clone the repository:**
 
    ```bash
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone git@github.com:danielkoryat/job-interview-project.git
+   cd job-interview-project
    ```
 
 2. **Start Zookeeper:** 

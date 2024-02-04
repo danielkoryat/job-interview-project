@@ -2,7 +2,6 @@ from kafka_service import KafkaService
 from mongo_service import MongoService
 import time
 import logging
-from utils import error_handler
 
 def main():
     #Main function to consume messages from Kafka and insert them into MongoDB.

@@ -40,7 +40,7 @@ docker exec -it main_project-redis-1 redis-cli KEYS '*'
 #run again the kafka consumer
 docker compose up kafka-consumer
 
-#run gain the redis consumer
+#run gain the redis provider
 docker compose up redis-provider  
 
 #get all the keys in redis

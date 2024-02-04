@@ -49,7 +49,7 @@ class KafkaService:
             message_dict = json.loads(decoded_message)
 
             if 'timestamp' in message_dict:
-                message_dict['timestamp'] = datetime.fromisoformat(message_dict['timestamp'].rstrip('Z')).replace(tzinfo=timezone.utc)
+                message_dict['timestamp'] = datetime.fromisoformat(message_dict['timestamp']) #convert to datetime for mongo
             return message_dict
 
         except json.JSONDecodeError as e:

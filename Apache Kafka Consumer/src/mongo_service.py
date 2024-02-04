@@ -27,7 +27,7 @@ class MongoService:
         #Sets up an index for the collection based on the specified environment variable.
         index_key = os.getenv('MONGO_INDEX_KEY')
         if index_key:
-            self.collection.create_index([(index_key, 1)])
+            self.collection.create_index([(index_key, 1)]) 
             logging.info(f"Index created on key: {index_key}")
         else:
             logging.warning("No index key provided in environment variables.")
