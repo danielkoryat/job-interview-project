@@ -39,13 +39,8 @@ docker exec -it main_project-redis-1 redis-cli KEYS '*'
 #get sorted keys from redis
 docker exec -i main_project-redis-1 redis-cli KEYS '*' | ForEach-Object { $_.Trim() } | Sort-Object { [int]($_ -split ':')[0] }
 
-#run again the kafka consumer
-docker compose up kafka-consumer
+#get a value of a specific key
+docker exec -it main_project-redis-1 redis-cli GET 68:2024-02-05T09:52:20.510000
 
-#run gain the redis provider
-docker compose up redis-provider  
-
-#get all the keys frpm redis
-docker exec -it main_project-redis-1 redis-cli KEYS '*'
 
 

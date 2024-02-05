@@ -1,8 +1,6 @@
 import time
-import os
 from mongo_service import MongoService 
 from redis_service import RedisService  
-from typing import Dict, Any, Tuple
 import logging
 
 
@@ -22,7 +20,7 @@ def process_records(mongo_service: MongoService, redis_service: RedisService):
         last_timestamp = record['timestamp']
         redis_updates['last_processed_timestamp'] = last_timestamp.isoformat()
 
-        is_success = redis_service.save_records(redis_updates)
+        is_success = redis_service.save_record(redis_updates)
         if is_success:
             logging.info(f"Updated Redis with key: {key}")
         else:

@@ -14,7 +14,6 @@ def main():
             document = kafka_service.consume_messages()
             if document:
                 mongo_service.insert_document(document)
-                kafka_service.consumer.commit()
                 logging.info(f"Message ID: {document['reporter_id']} inserted successfully")
             time.sleep(1)
     except Exception as e:

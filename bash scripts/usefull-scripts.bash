@@ -90,7 +90,5 @@ docker-compose exec redis redis-cli SET key_name "value"
 # Script to delete all keys from the current Redis database
 docker-compose exec redis redis-cli FLUSHDB
 
-docker-compose exec redis redis-cli GET 29:2024-02-04T13:07:39.278000
-
 #get the sorted value with an error becouse last_processes_timestamp
 docker exec -i main_project-redis-1 redis-cli KEYS '*' | ForEach-Object { $_.Trim() } | Sort-Object { [int]($_ -split ':')[0] }
