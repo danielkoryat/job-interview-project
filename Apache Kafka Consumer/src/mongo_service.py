@@ -2,6 +2,7 @@ import logging
 from pymongo import MongoClient
 import os
 from utils import error_handler
+from typing import Dict
 
 class MongoService:
     
@@ -15,7 +16,7 @@ class MongoService:
         logging.info("MongoDB connection established.")
 
     @error_handler
-    def insert_document(self, document):
+    def insert_document(self, document : Dict[str, any]):
         #Inserts a single document into the MongoDB collection.
         try:
             self.collection.insert_one(document)

@@ -2,7 +2,7 @@ import logging
 from confluent_kafka import Consumer, KafkaError,Message
 import os
 import json
-from datetime import datetime,timezone
+from datetime import datetime
 from typing import Optional, Dict
 from utils import error_handler
 

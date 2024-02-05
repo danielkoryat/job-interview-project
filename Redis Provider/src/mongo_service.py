@@ -19,7 +19,7 @@ class MongoService:
 
     @error_handler
     def get_new_records(self, last_timestamp: datetime) -> Iterator[Any]:
-        #Fetches new records from the collection that are newer than the given timestamp.       
+        #Fetches new records from the collection that are newer than the given timestamp. 
         query = {"timestamp": {"$gt": last_timestamp}}
         cleaning_instractions = {"_id": 0}  # Exclude the MongoDB '_id' field
-        return self.collection.find(query, cleaning_instractions)
+        return self.collection.find(query, cleaning_instractions).sort("timestamp", 1)

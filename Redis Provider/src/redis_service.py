@@ -21,10 +21,16 @@ class RedisService:
         redis_port = int(os.getenv('REDIS_PORT', '6379'))  # Default to 6379 if not set
         self.client: redis.Redis = redis.Redis(host=redis_host, port=redis_port)
 
-    @error_handler
-    def save_record(self, key: str, value: Any) -> bool:
-        #Saves a record in Redis,return: True if the operation was successful, False otherwise.
-        return self.client.set(key, value)
+    def save_records(self, updates: dict) -> bool:
+    # Saves a record in Redis
+    # return: True if the operation was successful, False otherwise.
+        try:
+            self.client.mset(updates)
+            return True
+        except Exception as e:
+            logging.error(f"Failed to update Redis with error: {e}")
+            return False
+
     
     @error_handler
     def save_last_processed_timestamp(self, timestamp: datetime) -> bool:
